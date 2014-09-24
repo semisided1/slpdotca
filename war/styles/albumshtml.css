@@ -1,0 +1,11 @@
+body {
+	background:silver;
+}
+div.photo {
+	float: left;
+	clear:none;
+	width: 100px;
+}
+div.album {
+	clear:both;
+}

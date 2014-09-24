@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	<servlet>
+		<servlet-name>Slpdotca</servlet-name>
+		<servlet-class>ca.stevenlaytonsphotography.SlpdotcaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Slpdotca</servlet-name>
+		<url-pattern>/slpdotca</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>getPicasa</servlet-name>
+		<servlet-class>ca.stevenlaytonsphotography.getPicasa</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>getPicasa</servlet-name>
+		<url-pattern>/getPicasa</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
