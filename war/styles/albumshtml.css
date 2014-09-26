@@ -1,11 +1,38 @@
+
 body {
 	background:silver;
 }
-div.photo {
-	float: left;
-	clear:none;
-	width: 100px;
+
+.flexcontainer {
+	display : flex;
+	flex-flow : row wrap;
+	justify-content : flex-start;
+	align-content: flex-start;
+	align-items: flex-start;
+	width: 640px;
+	
 }
+
+.flexitem {
+	flex: 0 1 auto;
+	align-self: auto;
+	min-width: 80px;
+	min-height: 80px;
+}
+
+
+
 div.album {
-	clear:both;
+	
+	margin-top: 4em;
+	
+}
+
+
+div.addthisalbum {
+	background-color: green;
+	color: black;
+	width: 300px;
+	height: 60px;
+	
 }

@@ -52,10 +52,12 @@ public class Album {
 		sb.append("<Photofeedurl>");
 		sb.append(this.photofeedurl);
 		sb.append("</Photofeedurl>");
+		sb.append("<Photos>");
 		
 		for (Photo p : photos) {
 			sb.append(p.toXml());
 		}
+		sb.append("</Photos>");
 		
 		sb.append("</Album>");
 		

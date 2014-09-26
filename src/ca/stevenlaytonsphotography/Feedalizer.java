@@ -21,9 +21,11 @@ import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
+import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XdmNodeKind;
 import net.sf.saxon.s9api.XdmSequenceIterator;
+import net.sf.saxon.s9api.XdmValue;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
@@ -55,7 +57,7 @@ public class Feedalizer {
 		StringBuffer result = new StringBuffer();
 		try {
 			while ((inputLine = in.readLine()) != null) {
-				result.append(inputLine);
+				result.append(inputLine+"\r\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -73,20 +75,24 @@ public class Feedalizer {
 	
 	// this step is completely unnecessary
 	// buildAlbums using the Feed instead (its not that messy )
-	public String getcleanfeed(String feed, String style) {
+	
+	
+	// will support 1 param for now but may need a param list class
+	public String getcleanfeed(String feed, String style) throws SaxonApiException {
 
 		Processor proc = new Processor(false);
 		XsltCompiler comp = proc.newXsltCompiler();
 
 		// get xslt executor from local file using compiler
 		XsltExecutable exp = null;
-		while (exp ==null) {
+		
 		try {
 			exp = comp.compile(new StreamSource(new File(style)));
 		} catch (SaxonApiException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+		    throw e;
 		}
-		}
+		
 		// get xdmnode document with using processor and feed(string)
 		// XdmNode source = null;
 		XdmNode source = null;
@@ -106,6 +112,11 @@ public class Feedalizer {
 		trans.setInitialContextNode(source);
 		trans.setDestination(out);
 		try {
+			/*
+			QName name = new QName("session");
+			XdmValue value = new XdmValue(new XdmAtomicValue(sessionXml));	
+			trans.setParameter(name, value);
+			*/
 			trans.transform();
 		} catch (SaxonApiException e) {
 			e.printStackTrace();
