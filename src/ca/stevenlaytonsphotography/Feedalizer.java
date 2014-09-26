@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -17,10 +18,12 @@ import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.saxon.s9api.Axis;
+import net.sf.saxon.s9api.DocumentBuilder;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
+import net.sf.saxon.s9api.WhitespaceStrippingPolicy;
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XdmNodeKind;
@@ -30,6 +33,9 @@ import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
 
+import javax.xml.transform.stream.StreamSource;
+
+
 public class Feedalizer {
 
 	public String getuserfeed( String urlString) {
@@ -37,11 +43,19 @@ public class Feedalizer {
 		try {
 			feedUrl = new URL(urlString);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			return null;
 		}
-		URLConnection yc = null;
+		HttpURLConnection yc = null;
 		try {
-			yc = feedUrl.openConnection();
+			yc = (HttpURLConnection) feedUrl.openConnection();
+
+			yc.setConnectTimeout(15 * 1000);
+			yc.setRequestMethod("GET");
+			yc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)");
+			yc.connect();
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,14 +70,20 @@ public class Feedalizer {
 		String inputLine;
 		StringBuffer result = new StringBuffer();
 		try {
-			while ((inputLine = in.readLine()) != null) {
-				result.append(inputLine+"\r\n");
+			while (true) {
+				if (in == null) break;  // throw new IOException("try again");
+				inputLine = in.readLine();
+				if (inputLine==null) break;
+				result.append(inputLine.replace("&nbsp;"," ")+"\r\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			in.close();
+			if (in != null) {
+				in.close();
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,11 +92,11 @@ public class Feedalizer {
 
 
 	// change the g+ xml to something simpler using xsl style
-	
+
 	// this step is completely unnecessary
 	// buildAlbums using the Feed instead (its not that messy )
-	
-	
+
+
 	// will support 1 param for now but may need a param list class
 	public String getcleanfeed(String feed, String style) throws SaxonApiException {
 
@@ -85,22 +105,43 @@ public class Feedalizer {
 
 		// get xslt executor from local file using compiler
 		XsltExecutable exp = null;
-		
+
 		try {
 			exp = comp.compile(new StreamSource(new File(style)));
 		} catch (SaxonApiException e) {
 			//e.printStackTrace();
-		    throw e;
+			//throw e;
+			return null;
 		}
-		
+
 		// get xdmnode document with using processor and feed(string)
 		// XdmNode source = null;
 		XdmNode source = null;
-		try {
-			source = proc.newDocumentBuilder().build(new StreamSource(new ByteArrayInputStream(feed.getBytes(StandardCharsets.UTF_8))));
-		} catch (SaxonApiException e) {
-			e.printStackTrace();
+		DocumentBuilder docbuilder = null;
+		
+		
+
+		byte[] ba = feed.getBytes(StandardCharsets.UTF_8);
+
+		if ( ba.length < 5 ) {
+			//not valid xml surely just put the 5 in there if was a few newlines or something crazy
+			return null;
 		}
+
+		ByteArrayInputStream bais = new ByteArrayInputStream(ba);
+		javax.xml.transform.stream.StreamSource ss = new StreamSource(bais);
+
+
+ss.setSystemId("xml");
+		docbuilder = proc.newDocumentBuilder();
+	
+		docbuilder.setDTDValidation(false);
+		docbuilder.setWhitespaceStrippingPolicy(WhitespaceStrippingPolicy.ALL);
+//docbuilder.setentityresolver("xml");
+		source = docbuilder.build(ss);
+
+
+
 
 		// set up output stream
 		ByteArrayOutputStream stringwriter = new ByteArrayOutputStream();
@@ -116,7 +157,7 @@ public class Feedalizer {
 			QName name = new QName("session");
 			XdmValue value = new XdmValue(new XdmAtomicValue(sessionXml));	
 			trans.setParameter(name, value);
-			*/
+			 */
 			trans.transform();
 		} catch (SaxonApiException e) {
 			e.printStackTrace();
@@ -136,7 +177,17 @@ public class Feedalizer {
 		XdmNode res = null;
 		Processor proc = new Processor(false);
 		try {
-			res = proc.newDocumentBuilder().build(new StreamSource(new ByteArrayInputStream(feedstr.getBytes(StandardCharsets.UTF_8))));
+
+			byte[] ba = feedstr.getBytes(StandardCharsets.UTF_8);
+			if ( ba.length < 5 ) {
+				//not valid xml surely just put the 5 in there if was a few newlines or something crazy
+				return null;
+			}
+			ByteArrayInputStream bais = new ByteArrayInputStream(ba);
+			javax.xml.transform.stream.StreamSource ss = new StreamSource(bais);
+
+			res = proc.newDocumentBuilder().build(ss);
+
 		} catch (SaxonApiException e) {
 			e.printStackTrace();
 		}
@@ -151,6 +202,9 @@ public class Feedalizer {
 		Album aaa = null;
 
 		result = buildResultXdmNode(feedstr);
+		if ( result == null ) {
+			return null;
+		}
 		XdmSequenceIterator iter = result.axisIterator(Axis.DESCENDANT);
 
 		String nodename = null;
@@ -165,7 +219,7 @@ public class Feedalizer {
 			QName gnqn = child.getNodeName();
 			if (gnqn == null) {
 				// probably whitespace check this out???
-						continue;
+				continue;
 			}
 			nodename = gnqn.toString();
 
@@ -205,6 +259,7 @@ public class Feedalizer {
 		Photo ppp = null;
 
 		result = buildResultXdmNode(photofeed);
+		if (result==null) return null;
 		XdmSequenceIterator iter = result.axisIterator(Axis.DESCENDANT);
 
 		String nodename = null;
