@@ -1,13 +1,29 @@
 
 $(document).ready(function() {
-		alert('ready');
+		//alert('ready');
+	
+	
+		$('#clear').click(function () {
+			$.ajax({
+			    url: '/clear',
+			    data: 'none', 
+			    type: 'POST',
+			    contentType: "text/xml",
+			    dataType: "text",
+			    success : function(w,s){ location.reload(); },
+			    error : function (xhr, ajaxOptions, thrownError){  
+			        console.log(xhr.status);          
+			        console.log(thrownError);
+			    } 
+			}); 
+		});
+	
+	
+	
+	
+	
+	
 		$('div.addthisalbum').click(function () {
-			alert('post');
-		//	$(this).text( $(this).children('xmp').get(0).outerHTML );
-		//	$.post('/addalbum',	 { 'data': $(this).children('xmp').get(0).outerHTML   });
-		//	$.post('/addalbum',	 { 'data': 'blahxmlchange type to xml or research '  });
-			
-			
 			$.ajax({
 			    url: '/addalbum',
 			    data: {
@@ -16,7 +32,7 @@ $(document).ready(function() {
 			    type: 'POST',
 			    contentType: "text/xml",
 			    dataType: "text",
-			    success : function(w,s){alert('success')},
+			    success : function(w,s){ location.reload(); },
 			    error : function (xhr, ajaxOptions, thrownError){  
 			        console.log(xhr.status);          
 			        console.log(thrownError);
@@ -24,16 +40,5 @@ $(document).ready(function() {
 			}); 
 		});
 });
-		
-/*
- * 
- * 
-		
-		$(this).text("huh" ) ); 
-		
-		$.post('/addalbum',	 { 'data': $(this).children('xmp')   }, function(data){ 
-		// callback logic
-		alert(data) */
-	
 		
 		

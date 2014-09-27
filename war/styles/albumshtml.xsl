@@ -14,6 +14,7 @@
 			<body>
 				<h2>login</h2>
 				<xsl:apply-templates select="login"/>
+				<h2 id="clear">Clear document</h2>
 				<h2>Albums in current document</h2>
 				<xsl:apply-templates select="datastore"/>
 				<h2>List of Available Albums</h2>
@@ -49,13 +50,12 @@
 					<xsl:value-of select="Numphotos"/>
 				</li>
 				<li>
+					<a><xsl:attribute name="href">
 					<xsl:value-of select="Photofeedurl"/>
+					</xsl:attribute>feed
+					</a>
 				</li>
-				<li>
-					<div class="flexcontainer">
-						<xsl:apply-templates/>
-					</div>
-				</li>
+				
 			</ul>
 			<div class="addthisalbum">Add 
 				<xsl:value-of select="Albumname"/>
@@ -63,6 +63,8 @@
 			</div>
 		</div>
 	</xsl:template>
+	
+	<!-- 
 	<xsl:template match="photofeed/Album/Photo">.
 		
 		<div class="photo flexitem">
@@ -74,5 +76,6 @@
 			</img>
 		</div>
 	</xsl:template>
+	 -->
 	<xsl:template match="text()|@*"/>
 </xsl:stylesheet>
