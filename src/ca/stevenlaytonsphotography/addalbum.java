@@ -42,17 +42,13 @@ public class addalbum extends HttpServlet {
 			while ((line = reader.readLine()) != null)
 				jb.append(line);
 		} catch (Exception e) { /*report an error*/ }
-
+			// suspect puting in &nbsp; try to confirm
 		JSONObject jsonObject =   HTTP.toJSONObject(jb.toString());
-		System.out.print(jsonObject.toString());
-
 		Iterator<String> itr = jsonObject.keys();
 		while(itr.hasNext()) {
 			String key = itr.next();
 			Object o = jsonObject.get(key);
-			System.out.println(key + " : " + o);
 		}
-		System.out.println();
 		String method = jsonObject.getString("Method");
 		String jsonvalue = URLDecoder.decode(method,"UTF-8");
 
@@ -63,8 +59,8 @@ public class addalbum extends HttpServlet {
 		// strip data=<xmp>      
 		// strip  .. . .  </xmp>		
 		String xmlalbum = jsonvalue.substring(11,jsonvalue.length()-6);
-
-		System.out.println(xmlalbum);
+		String hack = xmlalbum.replaceAll("&nbsp;"," ");
+		//System.out.println(xmlalbum);
 		
 
 
@@ -105,7 +101,7 @@ public class addalbum extends HttpServlet {
 		//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		//Key catkey = KeyFactory.createKey("catalogue", "html");
 		
-		Text newval = new Text(xmlalbum + currentdata + "" );
+		Text newval = new Text( currentdata + hack + "" );
 		currentcatalogue.setProperty("xml", newval);
 		datastore.put(currentcatalogue);
 

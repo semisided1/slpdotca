@@ -82,18 +82,14 @@ public class getPicasa extends HttpServlet {
 		StringBuffer session = new StringBuffer();
 
 		session.append("<session>");
+		
+		session.append("<login>");
+		// gae get login string or user credentials if logged in
+		///session.append("session/login/value");
 
-		session.append("<photofeed>");
-		for ( Album ab : la) {
-			photofeedstr = feedalizer.getphotofeed(ab.getPhotofeedurl() + photofieldselector );
-			lp = feedalizer.buildPhotos(photofeedstr);
-			if (lp!=null) { 
-				ab.setPhotos(lp);
-				session.append(ab.toXml());
-			}
-		}
-		session.append("</photofeed>");
-
+		session.append("</login>");
+		
+		
 		session.append("<datastore>");
 		// gae datastore call to get current doc 
 		session.append("<albums>");
@@ -130,21 +126,21 @@ public class getPicasa extends HttpServlet {
 			}
 		}
 		session.append(currentdata);
-		System.out.println("currentdata: " + currentdata);
 		session.append("</albums>");
 		session.append("</datastore>");
-
-		session.append("<login>");
-		// gae get login string or user credentials if logged in
-		///session.append("session/login/value");
-
-		session.append("</login>");
-
-		session.append("</session>");
-
-
 		
-
+		
+		session.append("<photofeed>");
+		for ( Album ab : la) {
+			photofeedstr = feedalizer.getphotofeed(ab.getPhotofeedurl() + photofieldselector );
+			lp = feedalizer.buildPhotos(photofeedstr);
+			if (lp!=null) { 
+				ab.setPhotos(lp);
+				session.append(ab.toXml());
+			}
+		}
+		session.append("</photofeed>");
+		session.append("</session>");
 		Feedalizer ff = new Feedalizer();
 		String sstr = null; 
 		sstr = session.toString();

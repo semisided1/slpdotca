@@ -68,13 +68,15 @@ public class Feedalizer {
 			e.printStackTrace();
 		}
 		String inputLine;
+		String ai;
 		StringBuffer result = new StringBuffer();
 		try {
 			while (true) {
 				if (in == null) break;  // throw new IOException("try again");
 				inputLine = in.readLine();
 				if (inputLine==null) break;
-				result.append(inputLine.replace("&nbsp;"," ")+"\r\n");
+				ai = inputLine;
+				result.append(ai);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -87,7 +89,12 @@ public class Feedalizer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return result.toString();
+		String a = result.toString();
+		String b = a.replaceAll("&nbsp;"," ");
+		String c = a;
+		
+		
+		return b;
 	}
 
 
