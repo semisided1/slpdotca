@@ -1,0 +1,20 @@
+.flexcontainer {
+	display : flex;
+	flex-flow : row wrap;
+	justify-content : flex-start;
+	align-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	
+}
+
+.flexitem {
+	flex: 0 1 auto;
+	align-self: auto;
+//	min-width: 80px;
+//	min-height: 80px;
+}
+
+div.albumname>div.hidden {
+	display:none;
+}

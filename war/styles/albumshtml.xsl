@@ -59,7 +59,7 @@
 			</ul>
 			<div class="addthisalbum">Add 
 				<xsl:value-of select="Albumname"/>
-				<xmp style="display:none"><xsl:copy-of select="."/></xmp>  
+				<xmp><xsl:copy-of select="."/></xmp>  
 			</div>
 		</div>
 	</xsl:template>

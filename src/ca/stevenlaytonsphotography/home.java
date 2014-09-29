@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.Text;
 
 import net.sf.saxon.s9api.SaxonApiException;
 
-public class getPicasa extends HttpServlet {
+public class home extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -33,22 +33,10 @@ public class getPicasa extends HttpServlet {
 		resp.setContentType("text/html");
 		// build all available albums
 		StringBuffer session = new StringBuffer();
-
 		session.append("<session>");
-		
-		session.append("<login>");
-		// gae get login string or user credentials if logged in
-		///session.append("session/login/value");
-
-		session.append("</login>");
-		
-		
 		session.append("<datastore>");
 		// gae datastore call to get current doc 
 		session.append("<albums>");
-
-
-
 
 		// get current data from gae datastore
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -81,81 +69,18 @@ public class getPicasa extends HttpServlet {
 		session.append(currentdata);
 		session.append("</albums>");
 		session.append("</datastore>");
-		session.append("<photofeed>");
-
-		PrintWriter out = resp.getWriter();
-
 		
-		
-		String stevensalbums = "http://picasaweb.google.com/data/feed/api/user/stevenlaytonphotography?kind=album&access=public&fields=entry%28media:group/media:title,gphoto:numphotos,link[@rel=%27http%3A%2F%2Fschemas.google.com%2Fg%2F2005%23feed%27]%28@href%29%29";
-		String albumsstyle = "styles/albums.xsl";
-
-		String uf = feedalizer.getuserfeed(stevensalbums);		
-		if (uf==null) {
-			resp.setContentType("text");
-			out.print("try again"); 
-			return;
-		}
-
-		if (uf.length()<10) {
-			resp.setContentType("text");
-			out.print("try again"); 
-			return;
-		}
-
-		String cf;
-		try {
-			cf = feedalizer.getcleanfeed(uf,albumsstyle);
-			if (cf==null) {
-				resp.setContentType("text");
-				out.print("try again"); 
-				return;
-			}
-		} catch (SaxonApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			resp.setContentType("text");
-			out.print(e.toString()); 
-			return;
-		}
-
-		// in retrospect i probably never did need to
-		// build javabeans for my doc class and just kept
-		// every thing xml, it did work out to get the nesting
-		// and url parsing handy
-		List<Album> la = feedalizer.buildAlbums(cf);
-		if (la == null) {
-			resp.setContentType("text");
-			out.print("try again"); 
-			return;
-		}
-		String photofeedstr = null;
-		List<Photo> lp = null;
-
-		String photofieldselector = "?fields=entry/summary,entry/content";
-
-	
-		for ( Album ab : la) {
-			photofeedstr = feedalizer.getphotofeed(ab.getPhotofeedurl() + photofieldselector );
-			lp = feedalizer.buildPhotos(photofeedstr);
-			if (lp!=null) { 
-				ab.setPhotos(lp);
-				
-				
-				session.append(ab.toXml());
-			}
-		}
-		session.append("</photofeed>");
 		session.append("</session>");
 		
-		
+		PrintWriter out = resp.getWriter();
+
 		// pass session xml to page xsl
 		Feedalizer ff = new Feedalizer();
 		String sstr = null; 
 		sstr = session.toString();
 		String page = null;
 		try {
-			page = ff.getcleanfeed(sstr,"styles/albumshtml.xsl");
+			page = ff.getcleanfeed(sstr,"styles/home.xsl");
 		} catch (SaxonApiException e) {
 			// if there is an error show the session xml
 			out.println(sstr);
