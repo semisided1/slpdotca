@@ -1,11 +1,27 @@
 
 $(document).ready(function() {
- alert('ready');
+
+	$('div.menuselect').click(function() {
+		$(this).hide();
+		$("div.main").show();
+		
+	});
+	
+	$('div.photo').click(function() {
+		this.hide();
+	});
+	
+	
 	$('div.albumname').click(function () {
-		alert('click');
+		
 			// get all the urls and show all the pictures easy
 			treefrag = $(this).children();
-			$(this).parent().siblings().html( treefrag );
+			//alert(treefrag.html());
+			$('.view').html( treefrag.html() );
+			$('div.main').hide();
+			$('div.menuselect').show();
+			window.scrollTo(0,0);
+			
 		});
 });
 		
