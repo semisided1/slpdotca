@@ -9,10 +9,11 @@
 }
 
 .flexitem {
-	flex: 0 0 auto;
+	flex: 0 1 auto;
 	align-self: auto;
 //	min-width: 80px;
 //	min-height: 80px;
+	
 }
 /*
 div.albumname>div.hidden {
@@ -23,24 +24,33 @@ div.albumname>div.hidden {
 	display : hidden;
 	clear : none;
 	position:fixed;
-	width:140px;
+	width:160px;
 	line-height:2em;
 	border-radius: 10px;
-	 border: 2px solid black;
+	 border: 2px solid white;
 	 top : 10px;
 	 left : 10px;
 	 padding-left:2em;
-	 opacity: 0.7;
+	 background-color:rgba(244,244,222,0.5);
+	 cursor: pointer;
+}
+
+.albumname:hover {
+	background-color:rgba(255,0,0,0.4);
+}
+.albumname {
+	background-color:rgba(244,244,222,0.5);
 }
 
 .menuselect {
 	position:fixed;
 	clear : none;
 	 border-radius: 10px;
-	  border: 2px solid black;
+	  border: 2px solid white;
 	  top : 10px;
 	 left : 10px;
-	 opacity: 0.7;
+	 background-color:rgba(255,255,255,0.8);
+	 cursor: pointer;
 }
 
 .view {
@@ -53,20 +63,40 @@ div.albumname>div.hidden {
 .hidden {
 	display : none;
 }
-.intro {
+.home {
 	width:100%;
 	margin: 0 0 auto;
 	text-align: center;
-	margin-top:200px;
+	margin-top:100px;
+	font-family: 'Rouge Script', cursive !important;
 }
+.testimonial {
+	margin:5em;
+}
+.contact {
+	margin:10em;
+}
+
+
+
 a {
 	text-decoration: none;
 }
 
+p {
+	max-width: 500px;
+}
+ul {
+	list-style: none;
+}
+
+body {
+	padding : 1em;
+}
 * {
-	background-color:black;
-	color: white;
+	background-color: white;
+	color: black;
 	margin:0;
 	padding:0;
-	font-family: 'Oswald', sans-serif;
+	
 }
