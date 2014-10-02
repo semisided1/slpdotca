@@ -21,6 +21,8 @@ div.albumname>div.hidden {
 }
 */
 .main {
+	font-family: 'Oswald', sans-serif !important;
+	z-index : 1000;
 	display : hidden;
 	clear : none;
 	position:fixed;
@@ -43,18 +45,21 @@ div.albumname>div.hidden {
 }
 
 .menuselect {
+	min-width: 3em;
 	position:fixed;
 	clear : none;
 	 border-radius: 10px;
 	  border: 2px solid white;
 	  top : 10px;
 	 left : 10px;
-	 background-color:rgba(255,255,255,0.8);
+	 background-color:rgba(255,255,255,1.0);
 	 cursor: pointer;
 }
 
 .view {
-	
+	margin : 0 0 auto;
+//	text-align: center;
+	width : 100%;
 }
 
 .photo {
@@ -70,11 +75,13 @@ div.albumname>div.hidden {
 	margin-top:100px;
 	font-family: 'Rouge Script', cursive !important;
 }
-.testimonial {
-	margin:5em;
-}
+.about,
+.testimonial ,
 .contact {
-	margin:10em;
+	font-family: 'Oswald', sans-serif !important;
+	margin : 0 auto;
+	margin-top : 100px;
+	width: 95%;
 }
 
 

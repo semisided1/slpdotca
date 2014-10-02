@@ -9,7 +9,7 @@
 		<html lang="en">
 			<head>
 				<meta charset="utf-8" />
-				<meta name="viewport" content="width=500, initial-scale=1" />
+				<meta name="viewport" content="width=300, initial-scale=1" />
 				<title>Steven Layton Photography</title>
 				<link href="styles/home.css" rel="stylesheet" />
 				<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'
