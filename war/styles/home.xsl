@@ -58,7 +58,9 @@ Contact
 						<li>Phone: 1 (403) 360-3602</li>
 						
 					</ul>
-				
+				<div id="fb-root"></div>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/S-Layton-Photography/121599421197706" data-width="500" data-height="1000" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
 	</div>
 </div>
 </div>
@@ -214,8 +216,8 @@ Contact
 								<h1>Steven Laytons Photography</h1>
 								<div class='slideshowbob'>
 								<div class="slideshowdata hidden">
-								
-								<xsl:apply-templates select="datastore/albums/Album[Albumname='Slide Show']" />
+								bla bla
+								<xsl:apply-templates select="datastore/albums/Album[Albumname='Slide Show']/Photos/Photo" />
 								
 								</div>
 								<div class='slideshowview' >
@@ -228,7 +230,8 @@ Contact
 	</xsl:template>
 
 	<xsl:template match="Album"> 
-	<!-- if it is the Albumname "Slide Show" skip this template -->
+	 <xsl:if test="not(Albumname ='Slide Show')"> 
+		
 		<div class="albumname flexcontainer">
 			<xsl:value-of select="Albumname"></xsl:value-of>
 			<div class="photos hidden">
@@ -236,6 +239,8 @@ Contact
 				</xsl:apply-templates>
 			</div>
 		</div>
+		</xsl:if>
+	
 	</xsl:template>
 
 	<xsl:template match="Photo">
