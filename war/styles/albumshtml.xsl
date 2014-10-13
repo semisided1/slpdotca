@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="xsl" version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output indent="yes" method="html" omit-xml-declaration="no"/>
+
 	<xsl:template match="session">
 		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
 		<html lang="en">
@@ -13,7 +14,15 @@
 			</head>
 			<body>
 				<h2>login</h2>
-				<xsl:apply-templates select="login"/>
+				
+				<xsl:value-of select="login/email"/>
+				<xsl:element name="a">
+				<xsl:attribute name="href">
+				<xsl:value-of select="login/logouturl" />
+				</xsl:attribute>
+				logout
+				</xsl:element>
+								
 				<h2 id="clear">Clear document</h2>
 				<h2>Albums in current document</h2>
 				<xsl:apply-templates select="datastore"/>

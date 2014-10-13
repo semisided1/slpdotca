@@ -18,6 +18,11 @@ import com.google.appengine.api.datastore.Text;
 
 import net.sf.saxon.s9api.SaxonApiException;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
+
 public class getPicasa extends HttpServlet {
 	/**
 	 * 
@@ -31,24 +36,55 @@ public class getPicasa extends HttpServlet {
 			throws IOException {
 
 		resp.setContentType("text/html");
+		PrintWriter out = resp.getWriter();
+		
 		// build all available albums
 		StringBuffer session = new StringBuffer();
 
 		session.append("<session>");
 		
 		session.append("<login>");
-		// gae get login string or user credentials if logged in
-		///session.append("session/login/value");
+		
+		
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
 
+		boolean lock = true;
+
+		if (user == null) {
+				out.print("<html><body><a href=\"");
+			out.print(userService.createLoginURL("/getPicasa"));
+			out.print("\"> login to manage site </a></body></html>");
+			return;
+		}
+
+		if (0 == user.getEmail().toLowerCase().compareTo("dirtslayer@gmail.com"))
+			lock = false;
+		if (0 == user.getEmail().toLowerCase().compareTo("stevenlaytonphotography@gmail.com"))
+			lock = false;
+		if (0 == user.getEmail().toLowerCase().compareTo("steven@stevenlaytonsphotography.com"))
+			lock = false;
+		
+			
+		
+		if (lock==true) {
+			out.print("<html><body><!--lock--></body></html>");
+			return;
+		}
+
+		
+		session.append("<email>");
+	    session.append(user.getEmail());
+	    session.append("</email>");
+	    
+	    session.append("<logouturl>");
+	    session.append(userService.createLogoutURL("/getPicasa"));
+		session.append("</logouturl>");	
+		
 		session.append("</login>");
-		
-		
 		session.append("<datastore>");
 		// gae datastore call to get current doc 
 		session.append("<albums>");
-
-
-
 
 		// get current data from gae datastore
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -83,7 +119,7 @@ public class getPicasa extends HttpServlet {
 		session.append("</datastore>");
 		session.append("<photofeed>");
 
-		PrintWriter out = resp.getWriter();
+		
 
 		
 		
