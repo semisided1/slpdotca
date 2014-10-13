@@ -11,10 +11,10 @@ which albums and the order of the albums appear on the site.
 ##Parts##
 
 1. 	Stevens *G+ Albums* 
-	- (managed with G+ or Picasa by Steven - the customer)
+	- managed with G+ or Picasa by Steven - the customer
 2. */getpicasa* 
 	- chooses order and which public albums from Stevens G+ go on the web site
-	(plus slide show album must be included but will not be seen in menu)
+	- slide show album must be included but will not be seen in menu
 3. */index.html*
 	- links to all the parts of the site
 4. Appengine *data-store* 
@@ -37,4 +37,13 @@ which albums and the order of the albums appear on the site.
 - css
 - jquery
 
+##Aftermath##
 
+In retrospect I overcomplicated a few parts of this but for future projects the 
+methods will be handy. I never needed to make pojos ever: but I did just for 
+convienence. 
+
+Some new tricks that I used that I am unsure of are: using the xmp tag to hide 
+data ;) 
+
+Its a bit ugly how I had to handle <pre>&nbsp;</pre> tag
