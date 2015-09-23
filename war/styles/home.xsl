@@ -11,6 +11,13 @@
 				<meta charset="utf-8" />
 				<meta name="viewport" content="width=300, initial-scale=1" />
 				<title>Steven Layton Photography</title>
+				
+<meta property="og:url" content="http://www.stevenlaytonsphotography.ca" />
+<meta property="og:title" content="Steven Laytons Photography" />
+<meta property="og:description" content="Photography, Fine Art, Photo Journalism, Alberta" />
+<meta property="og:image" content="http://lh3.googleusercontent.com/-LMx7Clsjx2M/VX-kN0fo7PI/AAAAAAAABw0/uNJZxzw6ZnE/s450/5.jpg" />
+				
+				
 				<link href="styles/home.css" rel="stylesheet" />
 				<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'
 					type='text/css' />

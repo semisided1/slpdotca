@@ -4,14 +4,6 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-	<servlet>
-		<servlet-name>Slpdotca</servlet-name>
-		<servlet-class>ca.stevenlaytonsphotography.SlpdotcaServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Slpdotca</servlet-name>
-		<url-pattern>/slpdotca</url-pattern>
-	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>getPicasa</servlet-name>
